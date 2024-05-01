@@ -1,10 +1,10 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 // morgan la thu vien in ra cac log khi nguoi dung chay 1 request
 const morgan = require('morgan')
 const {default: helmet} = require('helmet')
 const compression = require('compression')
-
 
 // init middlewares
 app.use(morgan("dev"))
