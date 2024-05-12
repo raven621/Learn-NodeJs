@@ -7,18 +7,15 @@ const keyTokenService = require("./keyToken.service")
 const { createTokenPair } = require("../auth/authUtils")
 const { getInfoData } = require("../utils")
 const {RoleShop} = require('../constant/access.constant')
+const { BadRequestError } = require("../core/error.response")
 
 class AccessService {
     static signUp = async ({name, email, password}) => {
-        try {
             //step1: check email exits??
             const holderShop = await shopModel.findOne({email}).lean()
 
             if(holderShop){
-                return {
-                    code: 'xxx',
-                    message: 'Shop already registered!'
-                }
+                throw new BadRequestError('Error: Shop already registered!')
             }
 
             const passwordHash = await bcrypt.hash(password, 10)
@@ -39,10 +36,11 @@ class AccessService {
                 })
 
                 if(!keyStore){
-                    return {
-                        code: "xxx",
-                        message: "keyStore error"
-                    }
+                    throw new BadRequestError('Error: keyStore error!')
+                    // return {
+                    //     code: "xxx",
+                    //     message: "keyStore error"
+                    // }
                 }
 
                 // created token pair
@@ -62,14 +60,6 @@ class AccessService {
                 code: 200,
                 metadata: null
             }
-
-        }catch(error){
-            return {
-                code: 'xxx',
-                message: error.message,
-                status: 'error'
-            }
-        }
     }
 }
 
