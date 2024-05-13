@@ -9,7 +9,7 @@ class ErrorResponse extends Error {
     }
 }
 
-class ConflicRequestError extends ErrorResponse{
+class ConflictRequestError extends ErrorResponse{
     constructor(message = ReasonPhrases.ConflicRequestError, statusCode = StatusCodes.FORBIDDEN){
         super(message, statusCode)
     }
@@ -22,6 +22,6 @@ class BadRequestError extends ErrorResponse{
 }
 
 module.exports = {
-    ConflicRequestError,
+    ConflictRequestError,
     BadRequestError,
 }
