@@ -11,6 +11,12 @@ const { findByEmail } = require("./shop.service")
 
 class AccessService {
 
+    static logout = async (keyStore) => {
+        const delKey = await keyTokenService.removeKeyById(keyStore._id)
+        // console.log(delKey)
+        return delKey
+    }
+
     static login = async ({email, password, refreshToken = null}) => {
         const foundShop = await findByEmail({email})
         if(!foundShop){

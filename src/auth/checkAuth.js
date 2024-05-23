@@ -1,6 +1,6 @@
 'use strict'
 
-const { HEADER } =  require("../constant/checkAuth.constant")
+const { HEADER } =  require("../constant/header.constant")
 const { findById } = require("../services/apikey.service")
 
 const apiKey = async (req, res, next) => {
@@ -40,14 +40,7 @@ const permisson = (permisson) => {
     }
 }
 
-const asyncHandler = fn => {
-    return (req, res, next) => {
-        fn(req, res, next).catch(next)
-    }
-}
-
 module.exports = {
     apiKey,
-    permisson,
-    asyncHandler
+    permisson
 }
