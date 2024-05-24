@@ -39,47 +39,71 @@ class Product {
     }
 
     // create new Product
-    async createProduct(){
-        return await product.create(this)
+    async createProduct(product_id){
+        return await product.create({...this, _id: product_id})
     }
 }
 
 // define sub-class for different product type = clothing
 class Clothing extends Product{
     async createProduct(){
-        const newClothing = await clothing.create(this.product_attributes)
-        if(!newClothing) throw new BadRequestError('Error:: Create new clothing failed')
+        let newClothing
+        try{
+            newClothing = await clothing.create({...this.product_attributes, product_shop: this.product_shop})
+            if(!newClothing) throw new BadRequestError('Error:: Create new clothing failed')
+            
+            const newProduct = await super.createProduct(newClothing._id)
+            if(!newProduct) throw new BadRequestError('Error:: Create new product failed')
         
-        const newProduct = await super.createProduct()
-        if(!newProduct) throw new BadRequestError('Error:: Create new product failed')
-        
-        return newProduct;
+            return newProduct
+        }catch(error){
+            if (newClothing) {
+                await clothing.deleteOne({ _id: newClothing._id })
+            }
+            throw error
+        }
     }
 }
 
 // define sub-class for different product type = electronic
 class Electronic extends Product{
     async createProduct(){
-        const newElectronic = await electronic.create(this.product_attributes)
-        if(!newElectronic) throw new BadRequestError('Error:: Create new electronic failed')
-        
-        const newProduct = await super.createProduct()
-        if(!newProduct) throw new BadRequestError('Error:: Create new product failed')
-        
-        return newProduct;
+        let newElectronic
+        try{
+            newElectronic = await electronic.create({...this.product_attributes, product_shop: this.product_shop})
+            if(!newElectronic) throw new BadRequestError('Error:: Create new electronic failed')
+            
+            const newProduct = await super.createProduct(newElectronic._id)
+            if(!newProduct) throw new BadRequestError('Error:: Create new product failed')
+            
+            return newProduct
+        }catch(error){
+            if (newElectronic) {
+                await electronic.deleteOne({ _id: newElectronic._id })
+            }
+            throw error
+        }
     }
 }
 
 // define sub-class for different product type = furniture
 class Furniture extends Product{
     async createProduct(){
-        const newFurniture = await furniture.create(this.product_attributes)
-        if(!newFurniture) throw new BadRequestError('Error:: Create new furniture failed')
-        
-        const newProduct = await super.createProduct()
-        if(!newProduct) throw new BadRequestError('Error:: Create new product failed')
-        
-        return newProduct;
+        let newFurniture
+        try{
+            newFurniture = await furniture.create({...this.product_attributes, product_shop: this.product_shop})
+            if(!newFurniture) throw new BadRequestError('Error:: Create new furniture failed')
+            
+            const newProduct = await super.createProduct(newFurniture._id)
+            if(!newProduct) throw new BadRequestError('Error:: Create new product failed')
+            
+            return newProduct
+        }catch(error){
+            if (newFurniture) {
+                await furniture.deleteOne({ _id: newFurniture._id })
+            }
+            throw error
+        }
     }
 }
 

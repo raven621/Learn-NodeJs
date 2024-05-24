@@ -52,7 +52,7 @@ class AccessService {
         if(foundToken){
             // decode User
             const {userId, email} = await verifyJWT(refreshToken, foundToken.privateKey)
-            console.log({userId, email})
+            // console.log({userId, email})
             // delete key
             await KeyTokenService.deleteKeyById(userId)
             throw new ForbiddenError('Something went wrong !! Please relogin')
